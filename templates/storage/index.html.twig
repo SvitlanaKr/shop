@@ -9,7 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Count</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Adress</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -17,7 +19,9 @@
         {% for storage in storages %}
             <tr>
                 <td>{{ storage.id }}</td>
-                <td>{{ storage.count }}</td>
+                <td>{{ storage.name }}</td>
+                <td>{{ storage.phone }}</td>
+                <td>{{ storage.adress }}</td>
                 <td>
                     <a href="{{ path('storage_show', {'id': storage.id}) }}">show</a>
                     <a href="{{ path('storage_edit', {'id': storage.id}) }}">edit</a>
@@ -25,7 +29,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

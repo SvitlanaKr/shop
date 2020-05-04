@@ -12,8 +12,9 @@ class StorageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('count')
-            ->add('products')
+            ->add('name')
+            ->add('phone')
+            ->add('adress')
         ;
     }
 

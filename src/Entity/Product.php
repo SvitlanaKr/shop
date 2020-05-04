@@ -39,13 +39,15 @@ class Product
     private $producer;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Storage", mappedBy="productId")
+     * @var Collection
+     * 
+     * @ORM\OneToMany(targetEntity="StorageProduct", mappedBy="product_id")
      */
-    private $storages;
+    protected $storageProducts;
 
     public function __construct()
     {
-        $this->storages = new ArrayCollection();
+        $this->storageProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,30 +104,33 @@ class Product
     }
 
     /**
-     * @return Collection|Storage[]
+     * @return Collection|StorageProduct[]
      */
-    public function getStorages(): Collection
+    public function getStorageProducts(): Collection
     {
-        return $this->storages;
+        return $this->storageProducts;
     }
 
-    public function addStorage(Storage $storage): self
+    public function addStorageProduct(StorageProduct $storageProduct): self
     {
-        if (!$this->storages->contains($storage)) {
-            $this->storages[] = $storage;
-            $storage->addProducts($this);
+        if (!$this->storageProducts->contains($storageProduct)) {
+            $this->storageProducts[] = $storageProduct;
         }
 
         return $this;
     }
 
-    public function removeStorage(Storage $storage): self
+    public function removeStorageProduct(StorageProduct $storageProduct): self
     {
-        if ($this->storages->contains($storage)) {
-            $this->storages->removeElement($storage);
-            $storage->removeProducts($this);
+        if ($this->storageProducts->contains($storageProduct)) {
+            $this->storageProducts->removeElement($storageProduct);
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

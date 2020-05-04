@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\StorageProduct;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StorageRepository")
@@ -19,18 +20,30 @@ class Storage
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product", inversedBy="storages")
+     * @ORM\Column(type="string", length=255)
      */
-    private $products;
+    private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
-    private $count;
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adress;
+
+    /**
+     * @var Collection
+     * 
+     * @ORM\OneToMany(targetEntity="StorageProduct", mappedBy="storage_id")
+     */
+    protected $storageProducts;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->storageProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -39,40 +52,69 @@ class Storage
     }
 
     /**
-     * @return Collection|Product[]
+     * @return Collection|StorageProduct[]
      */
-    public function getProducts(): Collection
+    public function getStorageProducts(): Collection
     {
-        return $this->products;
+        return $this->storageProducts;
     }
 
-    public function addProduct(Product $product): self
+    public function addStorageProduct(StorageProduct $storageProduct): self
     {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
+        if (!$this->storageProducts->contains($storageProduct)) {
+            $this->storageProducts[] = $storageProduct;
         }
 
         return $this;
     }
 
-    public function removeProduct(Product $product): self
+    public function removeStorageProduct(StorageProduct $storageProduct): self
     {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
+        if ($this->storageProducts->contains($storageProduct)) {
+            $this->storageProducts->removeElement($storageProduct);
         }
 
         return $this;
     }
 
-    public function getCount(): ?int
+    public function getName(): ?string
     {
-        return $this->count;
+        return $this->name;
     }
 
-    public function setCount(int $count): self
+    public function setName(string $name): self
     {
-        $this->count = $count;
+        $this->name = $name;
 
         return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(string $adress): self
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->id;
     }
 }

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}StorageProduct index{% endblock %}
+
+{% block body %}
+    <h1>StorageProduct index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Storage</th>
+                <th>Product</th>
+                <th>Count</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for storage_product in storage_products %}
+            <tr>
+                <td>{{ storage_product.id }}</td>
+                <td>{{ storage_product.storage }}</td>
+                <td>{{ storage_product.product }}</td>
+                <td>{{ storage_product.count }}</td>
+                <td>
+                  <a href="{{ path('storage_product_show', {'id': storage_product.id}) }}">show</a>
+                   
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}
