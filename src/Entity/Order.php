@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,6 +54,16 @@ class Order
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="orderBlank", orphanRemoval=true)
+     */
+    private $orderProducts;
+
+    public function __construct()
+    {
+        $this->orderProducts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -138,6 +150,37 @@ class Order
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderProduct[]
+     */
+    public function getOrderProducts(): Collection
+    {
+        return $this->orderProducts;
+    }
+
+    public function addOrderProduct(OrderProduct $orderProduct): self
+    {
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts[] = $orderProduct;
+            $orderProduct->setOrderBlank($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderProduct(OrderProduct $orderProduct): self
+    {
+        if ($this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts->removeElement($orderProduct);
+            // set the owning side to null (unless already changed)
+            if ($orderProduct->getOrderBlank() === $this) {
+                $orderProduct->setOrderBlank(null);
+            }
+        }
 
         return $this;
     }
