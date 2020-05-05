@@ -26,7 +26,7 @@ class Payment
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -36,5 +36,10 @@ class Payment
         $this->type = $type;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->type;
     }
 }

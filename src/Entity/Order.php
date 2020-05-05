@@ -20,7 +20,7 @@ class Order
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -36,12 +36,12 @@ class Order
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Payment", inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity="Payment", inversedBy="orders")
      */
     private $payment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Delivery", inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity="Delivery", inversedBy="orders")
      */
     private $delivery;
 
@@ -62,7 +62,11 @@ class Order
 
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         $this->orderProducts = new ArrayCollection();
+        $this->user = new User();
+        $this->delivery = new Delivery();
+        $this->payment = new Payment();
     }
 
     public function getId(): ?int

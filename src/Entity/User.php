@@ -50,6 +50,7 @@ class User
 
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         $this->orders = new ArrayCollection();
     }
 
@@ -147,5 +148,10 @@ class User
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }
